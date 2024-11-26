@@ -6,36 +6,27 @@ class ArithmeticScreen extends StatefulWidget {
 }
 
 class _ArithmeticScreenState extends State<ArithmeticScreen> {
-  final TextEditingController _num1Controller = TextEditingController();
-  final TextEditingController _num2Controller = TextEditingController();
-  String _result = '';
+  double number1 = 0;
+  double number2 = 0;
+  String result = '';
 
-  void _calculate(String operation) {
-    double num1 = double.parse(_num1Controller.text);
-    double num2 = double.parse(_num2Controller.text);
-    double result;
-
-    switch (operation) {
-      case 'add':
-        result = num1 + num2;
-        break;
-      case 'subtract':
-        result = num1 - num2;
-        break;
-      case 'multiply':
-        result = num1 * num2;
-        break;
-      case 'divide':
-        if (num2 != 0) {
-          result = num1 / num2;
-        } else {
-          result = double.infinity; // Handle division by zero
-        }
-        break;
+  void calculate(String operation) {
+    double res = 0;
+    if (operation == 'add') {
+      res = number1 + number2;
+    } else if (operation == 'subtract') {
+      res = number1 - number2;
+    } else if (operation == 'multiply') {
+      res = number1 * number2;
+    } else if (operation == 'divide') {
+      if (number2 != 0) {
+        res = number1 / number2;
+      } else {
+        res = double.nan;
+      }
     }
-
     setState(() {
-      _result = 'Result: $result';
+      result = 'Result: $res';
     });
   }
 
@@ -43,50 +34,56 @@ class _ArithmeticScreenState extends State<ArithmeticScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Arithmetic Calculator'),
+        title: Text('Arithmetic Operations'),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             TextField(
-              controller: _num1Controller,
-              keyboardType: TextInputType.number,
               decoration: InputDecoration(labelText: 'Enter first number'),
+              keyboardType: TextInputType.number,
+              onChanged: (value) {
+                number1 = double.tryParse(value) ?? 0;
+              },
             ),
             TextField(
-              controller: _num2Controller,
-              keyboardType: TextInputType.number,
               decoration: InputDecoration(labelText: 'Enter second number'),
+              keyboardType: TextInputType.number,
+              onChanged: (value) {
+                number2 = double.tryParse(value) ?? 0;
+              },
             ),
             SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 ElevatedButton(
-                  onPressed: () => _calculate('add'),
-                  child: Text('+'),
+                  onPressed: () => calculate('add'),
+                  child: Text('Add'),
                 ),
                 ElevatedButton(
-                  onPressed: () => _calculate('subtract'),
-                  child: Text('-'),
+                  onPressed: () => calculate('subtract'),
+                  child: Text('Subtract'),
                 ),
                 ElevatedButton(
-                  onPressed: () => _calculate('multiply'),
-                  child: Text('×'),
+                  onPressed: () => calculate('multiply'),
+                  child: Text('Multiply'),
                 ),
                 ElevatedButton(
-                  onPressed: () => _calculate('divide'),
-                  child: Text('÷'),
+                  onPressed: () => calculate('divide'),
+                  child: Text('Divide'),
                 ),
               ],
             ),
             SizedBox(height: 20),
-            Text(
-              _result,
-              style: TextStyle(fontSize: 24),
-            ),
+            Text(result, style: TextStyle(fontSize: 20)),
           ],
         ),
       ),

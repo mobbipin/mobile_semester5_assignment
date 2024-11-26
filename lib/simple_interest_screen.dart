@@ -6,20 +6,16 @@ class SimpleInterestScreen extends StatefulWidget {
 }
 
 class _SimpleInterestScreenState extends State<SimpleInterestScreen> {
-  final TextEditingController _principalController = TextEditingController();
-  final TextEditingController _rateController = TextEditingController();
-  final TextEditingController _timeController = TextEditingController();
-  String _result = '';
+  double principal = 0;
+  double rate = 0;
+  double time = 0;
+  String result = '';
 
-  void _calculateInterest() {
-    double principal = double.parse(_principalController.text);
-    double rate = double.parse(_rateController.text);
-    double time = double.parse(_timeController.text);
-
+  // Method to calculate Simple Interest
+  void calculateSimpleInterest() {
     double interest = (principal * rate * time) / 100;
-
     setState(() {
-      _result = 'Simple Interest: $interest';
+      result = 'Simple Interest: $interest';
     });
   }
 
@@ -28,37 +24,46 @@ class _SimpleInterestScreenState extends State<SimpleInterestScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Simple Interest Calculator'),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context); // Back navigation
+          },
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             TextField(
-              controller: _principalController,
+              decoration: InputDecoration(labelText: 'Enter Principal (P)'),
               keyboardType: TextInputType.number,
-              decoration: InputDecoration(labelText: 'Enter Principal'),
+              onChanged: (value) {
+                principal = double.tryParse(value) ?? 0;
+              },
             ),
             TextField(
-              controller: _rateController,
+              decoration:
+                  InputDecoration(labelText: 'Enter Rate of Interest (R)'),
               keyboardType: TextInputType.number,
-              decoration: InputDecoration(labelText: 'Enter Rate (%)'),
+              onChanged: (value) {
+                rate = double.tryParse(value) ?? 0;
+              },
             ),
             TextField(
-              controller: _timeController,
+              decoration: InputDecoration(labelText: 'Enter Time (T) in years'),
               keyboardType: TextInputType.number,
-              decoration: InputDecoration(labelText: 'Enter Time (years)'),
+              onChanged: (value) {
+                time = double.tryParse(value) ?? 0;
+              },
             ),
             SizedBox(height: 20),
             ElevatedButton(
-              onPressed: _calculateInterest,
+              onPressed: calculateSimpleInterest,
               child: Text('Calculate Interest'),
             ),
             SizedBox(height: 20),
-            Text(
-              _result,
-              style: TextStyle(fontSize: 24),
-            ),
+            Text(result, style: TextStyle(fontSize: 20)),
           ],
         ),
       ),

@@ -1,8 +1,7 @@
+import 'package:first_assignment/arithmetic_screen.dart';
+import 'package:first_assignment/circle_area_screen.dart';
+import 'package:first_assignment/simple_interest_screen.dart';
 import 'package:flutter/material.dart';
-
-import 'arithmetic_screen.dart';
-import 'circle_area_screen.dart';
-import 'simple_interest_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -12,33 +11,42 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'First Assignment',
+      title: 'FIRST ASSIGNMENT',
       theme: ThemeData(
-        primarySwatch: const Color.fromARGB(255, 60, 0, 0),
+        primarySwatch: Colors.blue,
       ),
-      home: DashboardScreen(),
+      home: DashboardPage(),
     );
   }
 }
 
-class DashboardScreen extends StatelessWidget {
+class DashboardPage extends StatefulWidget {
+  @override
+  _DashboardPageState createState() => _DashboardPageState();
+}
+
+class _DashboardPageState extends State<DashboardPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('What do you want to calculate?'),
+        title: Text('Dashboard'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Text(
+              'What do you want to do?',
+              style: TextStyle(fontSize: 24),
+            ),
+            SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ArithmeticScreen()),
-                );
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ArithmeticScreen()));
               },
               child: Text('Arithmetic'),
             ),
@@ -46,23 +54,21 @@ class DashboardScreen extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => SimpleInterestScreen()),
-                );
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => SimpleInterestScreen()));
               },
               child: Text('Simple Interest'),
             ),
             SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => CircleAreaScreen()),
-                );
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => AreaOfCircle()));
               },
               child: Text('Area of Circle'),
             ),
+            SizedBox(height: 20),
           ],
         ),
       ),

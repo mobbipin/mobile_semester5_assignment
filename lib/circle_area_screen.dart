@@ -1,22 +1,20 @@
-import 'dart:math';
+import 'dart:math'; //pievalue
 
 import 'package:flutter/material.dart';
 
-class CircleAreaScreen extends StatefulWidget {
+class AreaOfCircle extends StatefulWidget {
   @override
-  _CircleAreaScreenState createState() => _CircleAreaScreenState();
+  _AreaOfCircleState createState() => _AreaOfCircleState();
 }
 
-class _CircleAreaScreenState extends State<CircleAreaScreen> {
-  final TextEditingController _radiusController = TextEditingController();
-  String _result = '';
+class _AreaOfCircleState extends State<AreaOfCircle> {
+  double radius = 0;
+  String result = '';
 
-  void _calculateArea() {
-    double radius = double.parse(_radiusController.text);
+  void calculateCircleArea() {
     double area = pi * radius * radius;
-
     setState(() {
-      _result = 'Area of Circle: $area';
+      result = 'Area of Circle: $area';
     });
   }
 
@@ -24,27 +22,29 @@ class _CircleAreaScreenState extends State<CircleAreaScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Area of Circle Calculator'),
+        title: Text('Circle Area Calculator'),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             TextField(
-              controller: _radiusController,
+              decoration: InputDecoration(labelText: 'Enter radius (r)'),
               keyboardType: TextInputType.number,
-              decoration: InputDecoration(labelText: 'Enter Radius'),
+              onChanged: (value) {
+                radius = double.tryParse(value) ?? 0;
+              },
             ),
             SizedBox(height: 20),
             ElevatedButton(
-              onPressed: _calculateArea,
+              onPressed: calculateCircleArea,
               child: Text('Calculate Area'),
-            ),
-            SizedBox(height: 20),
-            Text(
-              _result,
-              style: TextStyle(fontSize: 24),
             ),
           ],
         ),
