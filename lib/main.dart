@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'First Assignment',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: const Color.fromARGB(255, 60, 0, 0),
       ),
       home: DashboardScreen(),
     );
@@ -27,6 +27,44 @@ class DashboardScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('What do you want to calculate?'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ArithmeticScreen()),
+                );
+              },
+              child: Text('Arithmetic'),
+            ),
+            SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => SimpleInterestScreen()),
+                );
+              },
+              child: Text('Simple Interest'),
+            ),
+            SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => CircleAreaScreen()),
+                );
+              },
+              child: Text('Area of Circle'),
+            ),
+          ],
+        ),
       ),
     );
   }
